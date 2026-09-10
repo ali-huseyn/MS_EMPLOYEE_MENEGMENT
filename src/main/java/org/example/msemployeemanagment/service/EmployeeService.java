@@ -67,5 +67,25 @@ public class EmployeeService {
         return entity.get();
     }
 
+    public List<EmployeeResponseDto>filterEmployees(String firstName,String lastName,String position){
+        List<EmployeeEntity> employees;
+        if (firstName != null) {
+            employees = employeeRepository.findByFirstNameIs(firstName);
+        } else if (lastName != null) {
+            employees = employeeRepository.findByLastNameIs(lastName);
+        } else if (position != null) {
+            employees = employeeRepository.findByPositionIs(position);
+        } else {
+            employees = employeeRepository.findAll();
+        }
+
+        return employeeMapper.toEmployeeResponseDto(employees);
+    }
+    public List<EmployeeResponseDto>findEmployeesGreaterThanAndLessThan(Double salary1, Double salary2) {
+
+                var employees=employeeRepository.findBySalaryGreaterThanAndSalaryLessThan(salary1, salary2);
+                return employeeMapper.toEmployeeResponseDto(employees);
+    }
+
 
 }
